@@ -7,7 +7,7 @@ namespace Voltix.Auth.Services
 {
     public interface IJwtTokenService
     {
-        public string GenerateToken(ITokenPayload payload);
+        public string GenerateToken(ITokenPayload payload, string role);
         public ITokenPayload? VerifyToken(string token);
     }
     
@@ -27,9 +27,10 @@ namespace Voltix.Auth.Services
             _jwtHeader = new JwtHeader(credentials);
         }
         
-        public string GenerateToken(ITokenPayload payload) {
+        public string GenerateToken(ITokenPayload payload, string role) {
             var jwtPayload = new JwtPayload() {
                 { "userId", Convert.ToInt32(payload.UserId) },
+                { "role", role },
                 { "exp", DateTime.UtcNow.AddSeconds(36000).Ticks },
             };
             var jwtToken = new JwtSecurityToken(_jwtHeader, jwtPayload);

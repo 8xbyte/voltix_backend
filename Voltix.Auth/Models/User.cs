@@ -17,4 +17,6 @@ public class User
     [Required]
     [StringLength(100)]
     public string PasswordHash { get; set; }
+
+    [Required] [StringLength(50)] public string Role { get; set; } = "contributor";
 }

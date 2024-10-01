@@ -30,7 +30,7 @@ namespace Voltix.Auth.Services
             return _jwtTokenService.GenerateToken(new ITokenPayload()
             {
                 UserId = user.Id
-            });
+            }, user.Role);
         }
 
         public async Task<string?> RegisterAsync(string name, string email, string password)
@@ -51,7 +51,7 @@ namespace Voltix.Auth.Services
             return _jwtTokenService.GenerateToken(new ITokenPayload()
             {
                 UserId = newUser.Id
-            });
+            }, "contributor");
         }
     }   
 }
