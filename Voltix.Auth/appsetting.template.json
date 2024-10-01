@@ -1,0 +1,18 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=SERVER;Database=DATABASE;Username=Username;Password=PASSWORD"
+  },
+  "Jwt": {
+    "Secret": "SECRET_KEY",
+    "Issuer": "YourIssuerHere",
+    "Audience": "YourAudienceHere",
+    "ExpiresInMinutes": 60
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
