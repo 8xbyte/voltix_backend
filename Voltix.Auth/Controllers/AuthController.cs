@@ -5,7 +5,7 @@ using Voltix.Auth.Services;
 namespace Voltix.Auth.Controllers
 {
     [ApiController]
-    [Route("api/auth")]
+    [Route("auth")]
     public class AuthController(IAuthService authService) : ControllerBase
     {
         private readonly IAuthService _authService = authService;
