@@ -6,9 +6,10 @@ namespace Voltix.Auth.Controllers
 {
     [ApiController]
     [Route("auth")]
-    public class AuthController(IAuthService authService) : ControllerBase
+    public class AuthController(IAuthService authService, IUserService userService) : ControllerBase
     {
         private readonly IAuthService _authService = authService;
+        private readonly IUserService _userService = userService;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestModel model)
@@ -66,5 +67,14 @@ namespace Voltix.Auth.Controllers
 
             return Ok(new { Token = token });
         }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteUser([FromBody] DeleteUserRequest model)
+        {
+            var result = await _userService.DeleteUserByUsernameAsync(model.Username);
+            if(!result) return NotFound(new { Message = "User not found" });
+            return Ok(new { Message = "User has been deleted" });
+        }
+        
     }
 }

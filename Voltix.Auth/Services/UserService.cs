@@ -9,6 +9,7 @@ namespace Voltix.Auth.Services
         public Task<User?> GetUserByEmailAsync(string email);
         public Task<User?> GetUserByNameOrEmailAsync(string name, string email);
         public Task<User> CreateUserAsync(User user);
+        public Task<bool> DeleteUserByUsernameAsync(string username);
     }
     
     public class UserService(ServiceDbContext dbContext, IJwtTokenService jwtTokenService) : IUserService
@@ -41,6 +42,15 @@ namespace Voltix.Auth.Services
             var userModel = await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
             return userModel.Entity;
+        }
+
+        public async Task<bool> DeleteUserByUsernameAsync(string username)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(model => model.Name == username);
+            if (user == null) return false;
+            _dbContext.Users.Remove(user);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }
