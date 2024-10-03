@@ -15,7 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Voltix API Auth", Version = "v1" });
-    // c.DocumentFilter<RemoveSchemasDocumentFilter>();
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -30,10 +29,16 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+
+    app.UseSwaggerUI(c =>
+    {
+        c.DefaultModelsExpandDepth(-1);
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Voltix.Auth");
+    });
 }
 
 app.UseCors("AllowSpecificOrigin");
@@ -41,13 +46,3 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-
-/*
-public class RemoveSchemasDocumentFilter : IDocumentFilter
-{
-    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-    {
-        swaggerDoc.Components.Schemas.Clear();
-    }
-}
-*/
